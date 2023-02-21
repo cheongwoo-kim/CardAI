@@ -1,8 +1,7 @@
-import logo from './logo.svg';
 import './App.scss';
-
+import React from 'react';
 function App() {
-  let title = "cardai";
+  const title = "cardai";
   return (
     
     <div className="App">
