@@ -18,6 +18,7 @@
   "homepage": "https://github.com/cheongwoo-kim/CardAI#readme",
   "dependencies": {
     "cors": "^2.8.5",
-    "express": "^4.18.2"
+    "express": "^4.18.2",
+    "spotify-web-api-node": "^5.0.2"
   }
 }

@@ -1,6 +1,14 @@
 const express = require('express');
 const app = express();
 const path = require('path');
+const SpotifyWebApi = require('spotify-web-api-node');
+const client_id = '44e0fb965a4a4733ab59b024f3905748'; // 자신의 Spotify API client_id
+const client_secret = '3a116477272442d8ab6e1afd9bee6440'; // 자신의 Spotify API client_secret
+
+const spotifyApi = new SpotifyWebApi({
+  clientId: client_id,
+  clientSecret: client_secret
+});
 app.listen(8080, function() {
     console.log('listening on 8080')
 })
@@ -22,7 +30,26 @@ app.get('/path',(req, res)=>{
     res.json({});
 })
 
+
 //리액트 라우터 쓰는 경우 주석 해제
 // app.get('*', (req,res)=> {
 //     res.sendFile(path.join(__dirname, 'react/build/index.html'));
 // });
+
+app.get('/artist/:name', async (req, res) => {
+    try {
+      const { name } = req.params;
+      const { body: { artists: { items } } } = await spotifyApi.searchArtists(name);
+      if (items.length === 0) {
+        res.status(404).send(`${name}에 대한 검색 결과가 없습니다.`);
+      } else {
+        const artistId = items[0].id;
+        const { body: { tracks } } = await spotifyApi.getArtistTopTracks(artistId, 'KR');
+        const trackNames = tracks.map(track => track.name);
+        res.send(`${items[0].name}의 인기 곡 목록: ${trackNames.join(', ')}`);
+      }
+    } catch (error) {
+      console.error(error);
+      res.status(500).send('Internal Server Error');
+    }
+  });

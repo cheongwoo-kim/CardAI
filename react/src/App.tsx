@@ -1,18 +1,30 @@
-import './App.scss';
 import 'reset-css';
-import React from 'react';
+import './App.scss';
+
+import React, { useState } from 'react';
 
 
-function index() {
-  const title = "cardai";
+const PublicUrl = process.env.PUBLIC_URL;
+
+const Header = (() => {
   return (
-      <header>{title}
-        <form action="">
-          <input name="email" type="text" placeholder="이메일"></input>
-          <input name="password" type="password" placeholder="비밀번호"></input>
-        </form>
-      
-      </header>
+    <header>
+      <nav>
+        <div className="logo">
+          <img width={120} src={`${PublicUrl}/images/icon/logo.svg`} alt="" />
+        </div>
+        <ul>
+          <li><a href="artist"></a></li>
+          <li><a href="search"><img width={17} height={17} src={PublicUrl + '/images/icon/search.svg'} alt="search" /></a></li>
+        </ul>
+      </nav>
+    </header>
+  )
+})
+function index() {
+
+  return (
+    Header()
   );
 }
 
