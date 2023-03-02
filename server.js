@@ -1,14 +1,12 @@
 const express = require('express');
 const app = express();
 const path = require('path');
+// require('dotenv').config();
 const SpotifyWebApi = require('spotify-web-api-node');
 const client_id = '44e0fb965a4a4733ab59b024f3905748'; // 자신의 Spotify API client_id
 const client_secret = '3a116477272442d8ab6e1afd9bee6440'; // 자신의 Spotify API client_secret
 
-const spotifyApi = new SpotifyWebApi({
-  clientId: client_id,
-  clientSecret: client_secret
-});
+
 app.listen(8080, function() {
     console.log('listening on 8080')
 })
@@ -16,6 +14,11 @@ app.use(express.json());
 var cors = require('cors');
 app.use(cors());
 
+
+const spotifyApi = new SpotifyWebApi({
+    clientId: client_id,
+    clientSecret: client_secret
+  });
 //특정 폴더의 파일들 전송 가능
 app.use(express.static(path.join(__dirname, 'react/build/')));
 
@@ -36,7 +39,8 @@ app.get('/path',(req, res)=>{
 //     res.sendFile(path.join(__dirname, 'react/build/index.html'));
 // });
 
-app.get('/artist/:name', async (req, res) => {
+app.get('/search/:name', async (req, res) => {
+    console.log(req.params);
     try {
       const { name } = req.params;
       const { body: { artists: { items } } } = await spotifyApi.searchArtists(name);
