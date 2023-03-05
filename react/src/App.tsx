@@ -21,10 +21,22 @@ const Header = (() => {
     </header>
   )
 })
+
+const Content = (() => {
+  const [title, setTitle] = useState(['기본 타이틀']);
+  const [like, setLike] = useState(0);
+  return (
+    <section>
+      <h1> { title[0] } <span onClick={()=>{setLike(like+1)}}>👍</span> {like} </h1>
+      <button onClick={()=>{setTitle(['변경 타이틀'])}}></button>
+    </section>
+  )
+})
 function index() {
 
   return (
-    Header()
+    Header(),
+    Content()
   );
 }
 
