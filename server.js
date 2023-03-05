@@ -43,6 +43,10 @@ app.get('/search/:name', async (req, res) => {
     console.log(req.params);
     try {
       const { name } = req.params;
+      // client credentials flow를 사용하여 인증 토큰 발급받기
+      const { body: { access_token } } = await spotifyApi.clientCredentialsGrant();
+        // 발급받은 인증 토큰을 API 요청의 헤더에 전달하기
+        spotifyApi.setAccessToken(access_token);
       const { body: { artists: { items } } } = await spotifyApi.searchArtists(name);
       if (items.length === 0) {
         res.status(404).send(`${name}에 대한 검색 결과가 없습니다.`);
